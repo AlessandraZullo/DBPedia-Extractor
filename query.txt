@@ -1,0 +1,30 @@
+CONSTRUCT {
+  ?band a dbo:Band ;
+       foaf:name ?name;
+        dbp:website ?website ; 
+      dbo:abstract ?abstract ;
+      dbo:genre ?genre;
+      dbo:image ?image;
+      dbo:associateBand ?bandRelated;
+     dbo:associatedMusicalArtist ?artistRelated;
+     dbp:caption ?caption;
+     dbp:origin ?origin;
+      dbp:currentMembers ?member .
+}
+WHERE 
+{
+  ?band a umbel-rc:Band_MusicGroup;
+      foaf:name ?name;
+      dbo:abstract ?abstract.
+      {?band dbo:bandMember ?member} UNION {?band dbo:formerBandMember ?member}.
+FILTER(lang(?abstract) = "en").
+OPTIONAL{?band dbo:genre ?genre} .
+OPTIONAL{?band foaf:homepage ?website} .
+OPTIONAL {?band dbo:thumbnail ?image}.
+OPTIONAL{?band dbo:associatedBand ?bandRelated} .
+OPTIONAL{?band dbo:associatedMusicalArtist ?artistRelated} .
+OPTIONAL{?band dbp:caption ?caption} .
+OPTIONAL{?band dbp:origin ?origin} .
+}
+LIMIT 10000
+OFFSET 
